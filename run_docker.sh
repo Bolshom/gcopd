@@ -4,4 +4,4 @@ then
     echo "Type your Docker Hub username, followed by [ENTER]:"
     read DOCKER_USER
 fi
-docker run --rm -d --name base $DOCKER_USER/gcopd_modeling:base
+docker run --rm -d --name base -v /home/$USER/gcopd_modeling:/basedir $DOCKER_USER/gcopd_modeling:base
