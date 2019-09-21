@@ -1,6 +1,8 @@
 FROM r-base
 
-RUN apt-get update && apt-get install vim -y
+RUN apt-get update && apt-get install vim \
+build-essential libcurl4-gnutls-dev \
+libxml2-dev libssl-dev -y
 
 COPY . /basedir
 WORKDIR /basedir
@@ -8,9 +10,9 @@ WORKDIR /basedir
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
+RUN /basedir/scripts/requirements.R
 
-RUN useradd -ms /bin/bash user \
-	&& chown -R user *
+RUN useradd -ms /bin/bash user && chown -R user *
 USER user
 
 CMD tail -f /dev/null
