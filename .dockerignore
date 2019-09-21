@@ -1,0 +1,8 @@
+**dockerfiles/
+**init_config/
+**README*
+**LICENSE*
+*.sh
+*.git*
+*.dockerignore
+Dockerfile
