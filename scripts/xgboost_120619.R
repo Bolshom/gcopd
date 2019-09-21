@@ -1,10 +1,11 @@
 require(magrittr); require(dplyr); require(xgboost); require(ggplot2)
 
 
-BASE_DIR = 'E:/Faculdade/Monografia/Banco de Dados/GCOPD 12-06-2019'
+BASE_DIR = '/basedir/estimation/120619'
 setwd(BASE_DIR)
 
-database = readRDS('model_database_3by3.RDS')
+database = readRDS('../../dataset/12062019.RDS')
+
 train = data.frame()
 test = data.frame()
 
@@ -51,11 +52,11 @@ for (row in 1:nrow(parameters)){
   
   importances[[row]] = xgb.importance(model=model)
   
-  saveRDS(model, paste0('xgboost/models/xgb_', row, '.RDS'))
+  saveRDS(model, paste0('models/xgb_', row, '.RDS'))
 }
 
-saveRDS(importances, 'xgboost/importances.RDS')
-saveRDS(parameters, 'xgboost/parameters.RDS')
+saveRDS(importances, 'xgb_importances.RDS')
+saveRDS(parameters, 'xgb_parameters.RDS')
 
 parameter = parameters[which.min(parameters$rmse), ]
 
@@ -70,7 +71,7 @@ model = xgboost(data.matrix(database %>% select(-ftpdiff, -id, -period)),
 
 importance = xgb.importance(model=model)
 
-saveRDS(model, 'xgboost/final_model.RDS')
+saveRDS(model, 'xgb_final_model.RDS')
 
 ggplot(importance %>% arrange(desc(Gain)) %>% head(10),
        aes(reorder(Feature, -Gain, sum), Gain)) +

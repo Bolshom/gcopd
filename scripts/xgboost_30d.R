@@ -1,23 +1,10 @@
 require(magrittr); require(dplyr); require(xgboost); require(ggplot2)
 
 
-BASE_DIR = 'E:/Faculdade/Monografia/Banco de Dados/GCOPD 30d'
+BASE_DIR = '/basedir/estimation/30d'
 setwd(BASE_DIR)
 
-load('model_database.rdata')
-int_var = model_database[, 9:308]
-seq_list = seq(0, 300, by = 3)
-xvar_list = data.frame(rep(0, nrow(int_var)))
-ls = length(seq_list)
-z = 1
-for (j in 2:ls){
-  xvar_list[, z] = apply(int_var[, (seq_list[j - 1] + 1):seq_list[j]], 1, sum)
-  colnames(xvar_list)[z] = paste0(colnames(int_var)[seq_list[j - 1] + 1]
-                                  ,colnames(int_var)[seq_list[j]])
-  z = z+1}
-model_database = cbind(model_database[, c(1:8)], xvar_list)
-database = model_database
-rm('model_database'); rm('int_var'); rm('xvar_list')
+database = readRDS('../../dataset/30d.RDS')
 
 train = data.frame()
 test = data.frame()
@@ -65,11 +52,11 @@ for (row in 1:nrow(parameters)){
   
   importances[[row]] = xgb.importance(model=model)
   
-  saveRDS(model, paste0('xgboost/models/xgb_', row, '.RDS'))
+  saveRDS(model, paste0('models/xgb_', row, '.RDS'))
 }
 
-saveRDS(importances, 'xgboost/importances.RDS')
-saveRDS(parameters, 'xgboost/parameters.RDS')
+saveRDS(importances, 'xgb_importances.RDS')
+saveRDS(parameters, 'xgb_parameters.RDS')
 
 parameter = parameters[which.min(parameters$rmse), ]
 
@@ -84,7 +71,7 @@ model = xgboost(data.matrix(database %>% select(-ftpdiff, -id, -period)),
 
 importance = xgb.importance(model=model)
 
-saveRDS(model, 'xgboost/final_model.RDS')
+saveRDS(model, 'xgb_final_model.RDS')
 
 ggplot(importance %>% arrange(desc(Gain)) %>% head(10),
        aes(reorder(Feature, -Gain, sum), Gain)) +
