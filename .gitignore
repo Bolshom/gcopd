@@ -16,3 +16,4 @@ rsconnect/
 Dockerfile
 **.swp
 **models/
+**.tar.gz

@@ -6,3 +6,4 @@
 *.git*
 *.dockerignore
 Dockerfile
+*.tar.gz
