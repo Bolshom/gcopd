@@ -10,8 +10,8 @@ Initially was developed a bayesian hierarchical model, with random effects borro
 Inside *estimations* folder there are modeling files generated from each technique. There are three databases on *dataset* directory, **30d** with data downloaded on August 2018, **12062019** with data downloaded on June 2019 and **External** with a small data sample downloaded on September 2019 to evaluate models predictions.
 
 All training sessions from every individual were filtered according to the following:
-* Cycling activies with power data;
-* More than 100 registered workouts;
+* Cycling activities with power data;
+* More than 100 recorded workouts;
 * Less than 500 W on FTP;
 * Non-stochastic pattern on FTP time series.
 
