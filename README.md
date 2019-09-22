@@ -19,13 +19,28 @@ Variables included are:
 - Weight;
 - Min and Max Heart Rate;
 - Average Weekly TSS;
-- Duration (days) of training period.
+- Duration (days) of training period;
+- Average time (seconds) on a given intensity (X% of FTP) during a training period, up to 300+%.
 
 Every row represents a training period between two different levels of FTP, a given moment of stress or detraining that results on a change of this performance marker.
 
-- **XGBoost**:
-   - Optimized with greedy grid search, with _early stop_ on 10 rounds, for a maximum of 10000 rounds of optimization. The range of parameters to be optimized can be found at _scripts/xgboost\_*.R_.
-   - After optimization a final model is saved (_final\_model.RDS_) trained with all available data.
+<details>
+   <summary><b>XGBoost:</b></summary>
+   <ul>
+      <li>Optimized with greedy grid search, with <i>early stop</i> on 10 rounds, for a maximum of 10000 rounds of optimization. The range of parameters to be optimized can be found at <i>scripts/xgboost_*.R</i>.</li>
+      <li>After optimization a final model is saved (<i>final_model.RDS</i>) trained with all available data.</li>
+   </ul>
+</details>
 
-- **CatBoost**:
-  - Not available yet.
+<details>
+   <summary><b>CatBoost:</b></summary>
+   
+   <ul>
+      <li>Not available yet.</li>
+   </ul>
+</details>
+
+-----
+
+![_Fighto!_](https://1.bp.blogspot.com/-EryvUK_0L6Q/W6_mqLQrl3I/AAAAAAAAhmA/1Ra6c00h0QkmJ8Jlvv5V433FGii4JjrwwCLcBGAs/s1600/wp2293854.jpg "Yowamushi Pedal")
+_Fighto!_
