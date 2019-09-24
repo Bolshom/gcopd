@@ -14,9 +14,9 @@ estimation = function(...) {
                                     as.numeric(gsub('X', '', int))/100,
                                     int_variables[, int]),
                                   USE.NAMES=F)))
-  if (is.nan(avg_day_tss)) return(0)
+  if (is.nan(avg_day_tss)) return(-1000)
   if ((avg_day_tss*5 > variables[, tss_col] + .05*variables[, tss_col]) |
-      (avg_day_tss*5 < variables[, tss_col] - .05*variables[, tss_col])) return(0)
+      (avg_day_tss*5 < variables[, tss_col] - .05*variables[, tss_col])) return(-1000)
   return(-predict(model, data.matrix(variables)))
 }
 
@@ -28,7 +28,7 @@ params = list(f=estimation,
               d=c(15, 30))
 int_params = sapply(paste0('X', 1:300), function(x) NULL)
 for (int in 1:300){
-  int_params[[paste0('X', int)]] = seq(60, 20*60, 60)
+  int_params[[paste0('X', int)]] = seq(0, 20*60, 60)
 }
 
 optimization = do.call(rdo_jump, c(params, int_params))
