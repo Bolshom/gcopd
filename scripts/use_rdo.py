@@ -1,5 +1,6 @@
 from math import exp, sqrt
 from random import choice, shuffle
+from statistics import mean
 from time import time
 
 from numpy import arange
@@ -49,3 +50,6 @@ for trial in range(50):
 
   trials['grid']['result'].append(optimized_tested_value)
   trials['grid']['time'].append(end-start)
+
+print('\nMean time for Random Search:', mean(trials['random']['time']))
+print('\nMean time for Grid Search:', mean(trials['grid']['time']))
