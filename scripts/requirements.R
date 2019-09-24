@@ -4,7 +4,8 @@ install.packages(c('devtools',
                    'dplyr',
                    'magrittr',
                    'ggplot2',
-                   'xgboost'))
+                   'xgboost',
+                   'zoo'))
 
 require(devtools)
 options(devtools.install.args = c('--no-multiarch', '--no-test-load'))
