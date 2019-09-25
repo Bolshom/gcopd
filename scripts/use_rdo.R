@@ -1,4 +1,5 @@
-source('random_descent_optimization.R', encoding='utf-8')
+setwd('F:/gcopd_modeling/estimation/30d')
+source('../../functions/random_descent_optimization.R', encoding='utf-8')
 
 
 model = function(var1, var2){

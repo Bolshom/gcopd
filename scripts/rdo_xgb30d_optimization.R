@@ -1,5 +1,4 @@
 setwd('F:/gcopd_modeling/estimation/30d')
-source('../../functions/rdo_jump.R', encoding='utf-8')
 source('../../functions/random_descent_optimization.R', encoding='utf-8')
 source('../../functions/tss.R', encoding='utf-8')
 
