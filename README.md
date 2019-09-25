@@ -51,5 +51,5 @@ Every row represents a training period between two different levels of FTP, a gi
 
 -----
 
-![_Fighto!_](https://1.bp.blogspot.com/-EryvUK_0L6Q/W6_mqLQrl3I/AAAAAAAAhmA/1Ra6c00h0QkmJ8Jlvv5V433FGii4JjrwwCLcBGAs/s1600/wp2293854.jpg "Yowamushi Pedal")
-_Fighto!_
+![_Hime!! Rabu-hime faito!_](https://1.bp.blogspot.com/-EryvUK_0L6Q/W6_mqLQrl3I/AAAAAAAAhmA/1Ra6c00h0QkmJ8Jlvv5V433FGii4JjrwwCLcBGAs/s1600/wp2293854.jpg "Yowamushi Pedal")
+_Hime!! Rabu-hime faito!_
