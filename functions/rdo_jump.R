@@ -6,11 +6,17 @@ rdo_jump = function(f, ...){
   
   # First round:
   fixed_choice = list()
-  for (variable in names(options)){
-    fixed_choice[[variable]] = sample(options[[variable]], 1)
+  trying = TRUE
+  while (trying){
+    for (variable in names(options)){
+      fixed_choice[[variable]] = sample(options[[variable]], 1)
+    }
+    if (!(paste(fixed_choice, collapse='-') %in% names(tested_values))){
+      fixed_tested_value = do.call(f, fixed_choice)
+      tested_values[[paste(fixed_choice, collapse='-')]] = fixed_tested_value
+    } else fixed_tested_value = tested_values[[paste(fixed_choice, collapse='-')]]
+    trying = ifelse(is.nan(fixed_tested_value), TRUE, FALSE)
   }
-  fixed_tested_value = do.call(f, fixed_choice)
-  tested_values[[paste(fixed_choice, collapse='-')]] = fixed_tested_value
   
   optimized = FALSE
   
@@ -37,12 +43,14 @@ rdo_jump = function(f, ...){
           temp_tested_value = do.call(f, temp_choice)
           tested_values[[paste(temp_choice, collapse='-')]] = temp_tested_value
         } else temp_tested_value = tested_values[[paste(temp_choice, collapse='-')]]
-        if (temp_tested_value < fixed_tested_value){
-          fixed_choice = temp_choice
-          fixed_tested_value = temp_tested_value
-          if (change %in% c(-1, 1)) past_changes[[column]] = c(past_changes[[column]], change)
-          break
-        }
+        if (!is.nan(temp_tested_value)){
+          if (temp_tested_value < fixed_tested_value){
+            fixed_choice = temp_choice
+            fixed_tested_value = temp_tested_value
+            if (change %in% c(-1, 1)) past_changes[[column]] = c(past_changes[[column]], change)
+            break
+          }
+        } else temp_choice[[column]] = sample(options[[column]], 1)
       }
     }
     if (fixed_tested_value == before_random_columns) optimized = TRUE

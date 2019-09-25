@@ -1,5 +1,6 @@
 setwd('F:/gcopd_modeling/estimation/30d')
 source('../../functions/rdo_jump.R', encoding='utf-8')
+source('../../functions/random_descent_optimization.R', encoding='utf-8')
 source('../../functions/tss.R', encoding='utf-8')
 
 model = readRDS('xgb_final_model.RDS')
@@ -14,9 +15,9 @@ estimation = function(...) {
                                     as.numeric(gsub('X', '', int))/100,
                                     int_variables[, int]),
                                   USE.NAMES=F)))
-  if (is.nan(avg_day_tss)) return(-1000)
+  if (is.nan(avg_day_tss)) return(NaN)
   if ((avg_day_tss*5 > variables[, tss_col] + .05*variables[, tss_col]) |
-      (avg_day_tss*5 < variables[, tss_col] - .05*variables[, tss_col])) return(-1000)
+      (avg_day_tss*5 < variables[, tss_col] - .05*variables[, tss_col])) return(NaN)
   return(-predict(model, data.matrix(variables)))
 }
 

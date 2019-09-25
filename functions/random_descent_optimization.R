@@ -1,4 +1,4 @@
-source('rdo_jump.R', encoding='utf-8')
+source('../../functions/rdo_jump.R', encoding='utf-8')
 
 
 random_descent_optimization = function(f, ...){
