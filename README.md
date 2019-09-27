@@ -49,6 +49,14 @@ Every row represents a training period between two different levels of FTP, a gi
    </ul>
 </details>
 
+<details>
+   <summary><b>Genetic Random Descent Optimization:</b></summary>
+   
+   <ul>
+      <li>Not available yet.</li>
+   </ul>
+</details>
+
 -----
 
 ![_Hime!! Rabu-hime faito!_](https://1.bp.blogspot.com/-EryvUK_0L6Q/W6_mqLQrl3I/AAAAAAAAhmA/1Ra6c00h0QkmJ8Jlvv5V433FGii4JjrwwCLcBGAs/s1600/wp2293854.jpg "Yowamushi Pedal")
