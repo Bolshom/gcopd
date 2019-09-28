@@ -1,22 +1,44 @@
 rdo_jump = function(f, ...){
+  require(snow)
+  
+  
   options = list(...)
   tested_values = list()
   jump = 3
   past_changes = sapply(names(options), function(x) NULL)
   
   # First round:
-  fixed_choice = list()
   trying = TRUE
+  cluster = makeCluster(parallel::detectCores(), type="SOCK")
   while (trying){
-    for (variable in names(options)){
-      fixed_choice[[variable]] = sample(options[[variable]], 1)
+    cat('\n*** TRYING FIRST GUESS ***\n')
+    trials = clusterCall(
+      cluster,
+      function(list) {
+        fixed_choice = list()
+        for (variable in names(list$options)){
+          fixed_choice[[variable]] = sample(list$options[[variable]], 1)
+        }
+        if (!(paste(fixed_choice, collapse='-') %in% names(list$tested_values))){
+          fixed_tested_value = do.call(list$f, fixed_choice)
+          list$tested_values[[paste(fixed_choice, collapse='-')]] = fixed_tested_value
+        } else {
+          fixed_tested_value = list$tested_values[[paste(fixed_choice, collapse='-')]]
+        }
+        return(list(value=fixed_tested_value, choices=fixed_choice))
+      }, list(f=f, options=options, tested_values=tested_values))
+    for (attempt in 1:length(trials)){
+      tested_values[[paste(trials[[attempt]]$choices, collapse='-')]] = trials[[attempt]]$value
     }
-    if (!(paste(fixed_choice, collapse='-') %in% names(tested_values))){
-      fixed_tested_value = do.call(f, fixed_choice)
-      tested_values[[paste(fixed_choice, collapse='-')]] = fixed_tested_value
-    } else fixed_tested_value = tested_values[[paste(fixed_choice, collapse='-')]]
-    trying = ifelse(is.nan(fixed_tested_value), TRUE, FALSE)
+    trying = ifelse(any(!is.nan(sapply(trials, function(x) x$value))), FALSE, TRUE)
   }
+  stopCluster(cluster)
+  
+  best_initial_index = which.min(tested_values)
+  fixed_tested_value = trials[[best_initial_index]]$value
+  fixed_choice = trials[[best_initial_index]]$choices
+  
+  cat('\n*** GOT FIRST GUESS ***\n')
   
   optimized = FALSE
   
@@ -58,6 +80,21 @@ rdo_jump = function(f, ...){
   
   optimized_choice = fixed_choice
   optimized_tested_value = fixed_tested_value
+  
+  return(list('value'=optimized_tested_value, 'choices'=optimized_choice))
+}
+
+random_descent_optimization = function(f, ...){
+  reps = 10
+  pre_results = list()
+  for (trial in 1:reps) pre_results[[trial]] = rdo_jump(f, ...)
+  
+  values = sapply(pre_results, function(result) result[['value']])
+  
+  optimized_tested_value = min(values)
+  optimized_choice = pre_results[[which.min(values)]][['choices']]
+  
+  cat('\n* Optimized result:', optimized_tested_value, '\n')
   
   return(list('value'=optimized_tested_value, 'choices'=optimized_choice))
 }

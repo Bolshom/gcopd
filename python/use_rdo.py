@@ -5,7 +5,7 @@ from time import time
 
 from numpy import arange
 
-from random_descent_optimization import random_descent_optimization
+from random_descent_optimization import rdo_jump, random_descent_optimization
 
 
 def model(var1, var2):

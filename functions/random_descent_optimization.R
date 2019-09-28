@@ -8,15 +8,22 @@ rdo_jump = function(f, ...){
   fixed_choice = list()
   trying = TRUE
   while (trying){
+    cat('\n*** TRYING FIRST GUESS ***\n')
     for (variable in names(options)){
       fixed_choice[[variable]] = sample(options[[variable]], 1)
     }
     if (!(paste(fixed_choice, collapse='-') %in% names(tested_values))){
+      cat('New Guess!\n')
       fixed_tested_value = do.call(f, fixed_choice)
       tested_values[[paste(fixed_choice, collapse='-')]] = fixed_tested_value
-    } else fixed_tested_value = tested_values[[paste(fixed_choice, collapse='-')]]
+    } else {
+      cat('Old Guess!\n')
+      fixed_tested_value = tested_values[[paste(fixed_choice, collapse='-')]]
+      }
     trying = ifelse(is.nan(fixed_tested_value), TRUE, FALSE)
   }
+  
+  cat('\n*** GOT FIRST GUESS ***\n')
   
   optimized = FALSE
   
