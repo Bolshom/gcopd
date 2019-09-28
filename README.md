@@ -43,9 +43,10 @@ Every row represents a training period between two different levels of FTP, a gi
 <details>
    <summary><b>Random Descent Optimization:</b></summary>
    <ul>
-   <li>This feature is written in R and Python on <i>functions</i> directory. The goal is to optimize a given function, considering it is not possible apply derivatives to gradient descent. The algorithm begins with a random guess, however if a custom function is passed as argument it will retry until a not NaN value is returned. After having a valid starting point the algorithm tries a single step on each variable, at a time, up and down. When three previous steps were taken on the same direction, the next jump will be tripled. The principle is to skip <i>grid search</i> by jumping over a few combinations of parameters.</li>
-   <li>This was designed to minimize a function, so it may be important to return a minus result, instead of the result itself.</li>
-   <li>Although the main goal with this algorithm is to identify the optimum training strategy, considering a few constraints or ranges, it can also be applied to hyperparameter optimization with <i>XGBoost, CatBoost</i> or any other machine learning model.</li>
+      <li>This feature is written in R and Python on <i>functions</i> directory. The goal is to optimize a given function, considering it is not possible apply derivatives to gradient descent. The algorithm begins with a random guess, however if a custom function is passed as argument it will retry until a not NaN value is returned. After having a valid starting point the algorithm tries a single step on each variable, at a time, up and down. When three previous steps were taken on the same direction, the next jump will be tripled. The principle is to skip <i>grid search</i> by jumping over a few combinations of parameters.</li>
+      <li>This was designed to minimize a function, so it may be important to return a minus result, instead of the result itself.</li>
+      <li>Although the main goal with this algorithm is to identify the optimum training strategy, considering a few constraints or ranges, it can also be applied to hyperparameter optimization with <i>XGBoost, CatBoost</i> or any other machine learning model.</li>
+      <li>The new version of this optimization algorithm has a first guess task to identify a set of choices, for each variable, that doesn't return <i>Not a Number</i> (NaN). This is useful when it's hard to limit the spectrum of each variable, however some combinations are clearly unnecessary. R's function has a parallel implementation to check this <i>first guess</i>.</li>
    </ul>
 </details>
 
