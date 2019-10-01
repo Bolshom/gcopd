@@ -1,9 +1,10 @@
-**dockerfiles/
-**init_config/
-**README*
-**LICENSE*
+*dockerfiles/
+*init_config/
+*README*
+*LICENSE*
 *.sh
 *.git*
 *.dockerignore
 Dockerfile
 *.tar.gz
+*models/

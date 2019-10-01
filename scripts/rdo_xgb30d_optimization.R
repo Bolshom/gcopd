@@ -1,4 +1,4 @@
-setwd('F:/gcopd_modeling/estimation/30d')
+setwd('/basedir/estimation/30d')
 source('../../functions/random_descent_optimization_parallel.R', encoding='utf-8')
 source('../../functions/tss.R', encoding='utf-8')
 
@@ -44,3 +44,4 @@ for (int in 101:130) int_params[[paste0('X', int)]] = c(0, 10, 15, 20, 30, 40, 5
 for (int in 131:300) int_params[[paste0('X', int)]] = c(0, 1, 5, 10)
 
 optimization = do.call(rdo_jump, c(params, int_params))
+saveRDS(optimization, 'optimization.RDS')
