@@ -5,7 +5,7 @@ source('../../functions/tss.R', encoding='utf-8')
 
 estimation = function(...) {
   variables = data.frame(...)
-  #tss_col = which(grepl('tss', colnames(variables)))
+  tss_col = which(grepl('tss', colnames(variables)))
   int_variables = variables[, colnames(variables)[grep('X', colnames(variables))]]
   
   tss = function(vector){
@@ -21,13 +21,11 @@ estimation = function(...) {
                                     as.numeric(gsub('X', '', int))/100,
                                     int_variables[, int]),
                                   USE.NAMES=F)))
-  if ((avg_day_tss<0)|(avg_day_tss>200)) return(NaN)
-  variables[, 'tssmed'] = avg_day_tss*5
   if (is.nan(avg_day_tss)) return(NaN)
-  variables = rbind(variables[, c('w', 'bpmmin', 'bpmmax', 'tssmed', 'd')],
+  if ((avg_day_tss<0)|(avg_day_tss>200)) return(NaN)
+  variables[, tss_col] = avg_day_tss*5
+  variables = rbind(variables[, which(!grepl('X', colnames(variables)))],
                     int_variables)
-  #if ((avg_day_tss*5 > variables[, tss_col] + .05*variables[, tss_col]) |
-  #    (avg_day_tss*5 < variables[, tss_col] - .05*variables[, tss_col])) return(NaN)
   return(-predict(model, data.matrix(variables)))
 }
 
@@ -40,8 +38,9 @@ params = list(f=estimation,
               tssmed=c(700, 750, 800),
               d=c(15, 30))
 int_params = sapply(paste0('X', 1:300), function(x) NULL)
-for (int in 1:100) int_params[[paste0('X', int)]] = c(0, .5, 1, 2, 5, 10, 20, 30, 60, 120) * 60
-for (int in 101:130) int_params[[paste0('X', int)]] = c(0, .5, 1, 2, 5) * 60
-for (int in 131:300) int_params[[paste0('X', int)]] = c(0, .25, .5) * 60
+for (int in 1:30) int_params[[paste0('X', int)]] = c(0, 10, 15, 20, 30, 60)
+for (int in 31:100) int_params[[paste0('X', int)]] = c(0, .25, seq(.5, 5, .5)) * 60
+for (int in 101:130) int_params[[paste0('X', int)]] = c(0, 10, 15, 20, 30, 40, 50, 60)
+for (int in 131:300) int_params[[paste0('X', int)]] = c(0, 1, 5, 10)
 
 optimization = do.call(rdo_jump, c(params, int_params))
