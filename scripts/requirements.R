@@ -5,6 +5,7 @@ install.packages(c('devtools',
                    'magrittr',
                    'ggplot2',
                    'xgboost',
+                   'snow',
                    'zoo'))
 
 require(devtools)
