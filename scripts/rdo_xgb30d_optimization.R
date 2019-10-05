@@ -1,6 +1,5 @@
 setwd('/basedir/estimation/30d')
 source('../../functions/random_descent_optimization_parallel.R', encoding='utf-8')
-source('../../functions/tss.R', encoding='utf-8')
 
 
 estimation = function(...) {
@@ -22,20 +21,19 @@ estimation = function(...) {
                                     int_variables[, int]),
                                   USE.NAMES=F)))
   if (is.nan(avg_day_tss)) return(NaN)
-  if ((avg_day_tss<0)|(avg_day_tss>200)) return(NaN)
-  variables[, tss_col] = avg_day_tss*5
-  variables = rbind(variables[, which(!grepl('X', colnames(variables)))],
-                    int_variables)
+  if ((avg_day_tss*5 > variables[, tss_col] + .05*variables[, tss_col]) |
+      (avg_day_tss*5 < variables[, tss_col] - .05*variables[, tss_col])) return(NaN)
+  
+  model = readRDS('/basedir/estimation/30d/xgb_final_model.RDS')
+  
   return(-predict(model, data.matrix(variables)))
 }
 
-model = readRDS('xgb_final_model.RDS')
-
 params = list(f=estimation,
-              w=c(65, 70),
-              bpmmin=c(40, 45, 50),
-              bpmmax=c(190, 195, 200),
-              tssmed=c(700, 750, 800),
+              w=c(65, 66),
+              bpmmin=c(55, 56),
+              bpmmax=c(198, 199),
+              tssmed=seq(200, 700, 50),
               d=c(15, 30))
 int_params = sapply(paste0('X', 1:300), function(x) NULL)
 for (int in 1:30) int_params[[paste0('X', int)]] = c(0, 10, 15, 20, 30, 60)

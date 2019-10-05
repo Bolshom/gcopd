@@ -34,7 +34,7 @@ rdo_jump = function(f, ...){
   }
   stopCluster(cluster)
   
-  best_initial_index = which.min(tested_values)
+  best_initial_index = which.min(sapply(trials, function(x) x$value))
   fixed_tested_value = trials[[best_initial_index]]$value
   fixed_choice = trials[[best_initial_index]]$choices
   
